@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 
 class WelcomeScene: SKScene {
-    
+
     var playableRect:CGRect?
     
     override init(size: CGSize) {
@@ -33,10 +33,24 @@ class WelcomeScene: SKScene {
         backgroundSprite.size = UIScreen.mainScreen().bounds.size
         backgroundSprite.zPosition = -1
         self.addChild( backgroundSprite )
+        
+        //Add the play button
+        let buttonSprite = SKSpriteNode( texture: SKTexture(imageNamed: "StartButton.png"), size: CGSize(width: 150, height: 90))
+        buttonSprite.position = CGPoint( x: screenWidth * 0.55, y: screenHeight * 0.2 )
+        buttonSprite.name = "PlayButton"
+        addChild( buttonSprite )
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        //Blah
+        let touch = touches.anyObject() as UITouch
+        let touchLocation = touch.locationInNode(self)
+        let nodes:[SKNode] = nodesAtPoint(touchLocation) as [SKNode]
+        let node = nodes.filter { $0.name == "PlayButton" }
+        if node[0].name == "PlayButton" {
+            self.view!.presentScene( GameScene() )
+        }
+        
+        
     }
    
 }
